@@ -4,8 +4,22 @@
   "description": "An ecommerce app for selling games",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "inst": "npm install && npm --prefix ./frontend install ./frontend",
+    "installdev": "npm run inst && npm install --only=dev",
+    "webpack": "node node_modules/webpack/bin/webpack.js --watch",
+    "nodemon": "node node_modules/nodemon/bin/nodemon.js",
+    "dev": "node node_modules/npm-run-all/bin/run-p/index.js webpack nodemon"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Francisco Ari Josino",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.15.0",
+    "npm-run-all": "^4.1.2",
+    "webpack": "^3.11.0"
+  }
 }

@@ -1,0 +1,16 @@
+{
+  "name": "sumstore_frontend",
+  "version": "0.0.1",
+  "description": "frontend component of the sumstore project",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Francisco Ari Josino",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "vue": "^2.5.13",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  }
+}
