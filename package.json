@@ -4,6 +4,7 @@
   "description": "An ecommerce app for selling games",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "inst": "npm install && npm --prefix ./frontend install ./frontend",
     "installdev": "npm run inst && npm install --only=dev",

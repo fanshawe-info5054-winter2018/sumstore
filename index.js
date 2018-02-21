@@ -10,5 +10,12 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 //routes
 app.use(express.static("frontend"));
 
-app.listen(config.port); // listen port (config/index.js)
-console.log('Listening on ' + config.port);
+if (module === require.main) {
+  // [START server]
+  // Start the server
+  const server = app.listen(process.env.PORT || config.port, () => {
+    const port = server.address().port;
+    console.log(`App listening on port ${port}`);
+  });
+  // [END server]
+}
