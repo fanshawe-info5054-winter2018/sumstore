@@ -1,6 +1,14 @@
 module.exports = {
-  entry: './frontend/js/app.js',
+  entry: './frontend/src/app.js',
   output: {
     filename: './frontend/bundle.js'
+  },
+  module:{
+    loaders: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      }
+    ]
   }
 };

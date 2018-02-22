@@ -9,8 +9,9 @@
     "inst": "npm install && npm --prefix ./frontend install ./frontend",
     "installdev": "npm run inst && npm install --only=dev",
     "webpack": "node node_modules/webpack/bin/webpack.js --watch",
+    "webpack-dev": "node node_modules/webpack/bin/webpack.js --devtool source-map --watch",
     "nodemon": "node node_modules/nodemon/bin/nodemon.js",
-    "dev": "node node_modules/npm-run-all/bin/run-p/index.js webpack nodemon"
+    "dev": "node node_modules/npm-run-all/bin/run-p/index.js webpack-dev nodemon"
   },
   "author": "Francisco Ari Josino",
   "license": "ISC",
@@ -21,6 +22,8 @@
   "devDependencies": {
     "nodemon": "^1.15.0",
     "npm-run-all": "^4.1.2",
+    "vue-loader": "^14.1.1",
+    "vue-template-compiler": "^2.5.13",
     "webpack": "^3.11.0"
   }
 }

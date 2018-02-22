@@ -1,1 +1,3 @@
 node_modules/
+frontend/*.map
+frontend/bundle.js
