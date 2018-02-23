@@ -1,0 +1,8 @@
+{
+  apiKey: "AIzaSyA6Eve_jSiI7hFOVWK5aFlQtIYdXXcLunU",
+  authDomain: "storeapp-fanshawe.firebaseapp.com",
+  databaseURL: "https://storeapp-fanshawe.firebaseio.com",
+  projectId: "storeapp-fanshawe",
+  storageBucket: "storeapp-fanshawe.appspot.com",
+  messagingSenderId: "393902712285"
+};
