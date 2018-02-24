@@ -1,8 +1,8 @@
 {
-  "apiKey": "AIzaSyA6Eve_jSiI7hFOVWK5aFlQtIYdXXcLunU",
-  "authDomain": "storeapp-fanshawe.firebaseapp.com",
-  "databaseURL": "https://storeapp-fanshawe.firebaseio.com",
-  "projectId": "storeapp-fanshawe",
-  "storageBucket": "storeapp-fanshawe.appspot.com",
-  "messagingSenderId": "393902712285"
-};
+  "apiKey": "AIzaSyDp5XFr5YFnr3GY0X_bitmCJyceR3bGbgI",
+  "authDomain": "sumstore-fanshawe.firebaseapp.com",
+  "databaseURL": "https://sumstore-fanshawe.firebaseio.com",
+  "projectId": "sumstore-fanshawe",
+  "storageBucket": "sumstore-fanshawe.appspot.com",
+  "messagingSenderId": "875118710803"
+}
