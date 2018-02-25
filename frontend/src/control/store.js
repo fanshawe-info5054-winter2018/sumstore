@@ -1,12 +1,16 @@
 import Vue from 'vue/dist/vue.common';
 import Vuex from 'vuex';
 
-const auth = require('./modules/auth');
+import auth from './modules/auth';
+import game from './modules/game';
+import platform from './modules/platform';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    auth
+    auth,
+    game,
+    platform
   },
 });

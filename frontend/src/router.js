@@ -7,11 +7,11 @@ const router = new VueRouter({
     /******* Public Pages *******/
     {
       path: '/',
-      component: require('./view/main.vue').default,
+      component: require('./view/mainpage.vue').default,
       children: [
         {
           path: '/',
-          component: require('./view/main/home.vue').default,
+          component: require('./view/mainpage/home.vue').default,
           meta: {
             title: 'SumStore',
           }

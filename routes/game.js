@@ -2,29 +2,36 @@ const express = require('express');
 const router = express.Router();
 
 const gamemodel = require('./model/game');
-const platformmodel = require('./model/platform');
 
 module.exports = ()=>{
-  router.post("/create",(request,repsonse)=>{
-    let newgame = request.body.game;
-    platformmodel.list().then(snapshot=>{
-      let platforms = snapshot.val();
-      for (const key in newgame.platforms) {
-        if (newgame.platforms.hasOwnProperty(key)) {
-          if(platforms[key] == null){
-            response.status(500).send({reason:"invalid platform id"});
-            return;
-          }
-        }
-      }
-      gamemodel.create(newgame);
-      response.status(200);
-    });
+  router.post("/save",(request,response)=>{
+    console.log(request.body);
+    let game = JSON.parse(request.body.game);
+    if(game.uid){
+      return gamemodel.update(game).then(()=>{
+        response.status(200).send();
+      },()=>{
+        response.status(500).send({reason:"error trying to update game"});
+      });
+    }
+    else{
+      return gamemodel.create(game).then(()=>{
+        response.status(200).send();
+      },()=>{
+        response.status(500).send({reason:"error trying to create game"});
+      });
+    }
   });
 
   router.post("/list",(request,response)=>{
-    gamemodel.list().then(snapshot=>{
-      response.json(snapshot.val());
+    gamemodel.list(request.body.platform).then(games=>{
+      response.json(games);
+    });
+  });
+
+  router.post("/listall",(request,response)=>{
+    gamemodel.listAll().then(games=>{
+      response.json(games);
     });
   });
 

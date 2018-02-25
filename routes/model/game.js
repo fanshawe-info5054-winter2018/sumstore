@@ -1,4 +1,7 @@
 const firebase = require(__base + "firebase/firebase.js");
+
+const platformmodel = require('./platform');
+
 module.exports = {
   create:function(game){
     //create a new game
@@ -6,31 +9,57 @@ module.exports = {
     /*
     {
       name:"name of the game",
-      platforms:{
-        platformFirebaseID:{
-          price:"price as a number",
-          rating:"a number varying from 0 to 1"
-        },
-        platformFirebaseID:{
-          price:"price as a number",
-          rating:"a number varying from 0 to 1"
-        }
-      }
+      platform:platformFirebaseID,
+      price:10.0,
+      rating:1,
+      qty:10
     }
     */
-    return firebase.database().ref("games").push().set(game);
+    let newgame = firebase.database().ref("platforms/"+game.platform+"/games").push();
+    game.uid = newgame.key;
+    return newgame.set(game);
   },
-  list:function(){
-    //lists all games, returns a promise with the firebase snapshot when resolved
+  list:function(platform){
+    //lists all games from a platform, returns a promise with an array when resolved
     return new Promise((resolve,reject)=>{
-      firebase.database().ref("games").once("value").then(snapshot=>{
-        resolve(snapshot);
+      firebase.database().ref("platforms/"+platform+"/games").once("value").then(snapshot=>{
+        resolve(Object.values(snapshot.val()));
       },err=>{
         reject(err);
       });
     });
   },
-  update:function(game){
-    return firebase.database().ref("games/"+game.uid).update(game);
+  listAll:function(){
+    //lists all games from all platforms and sorts them by name, returns a promise with an array when resolved
+    return new Promise((resolve,reject)=>{
+      return platformmodel.list().then(platforms=>{
+        let games = [];
+        for (let i = 0; i < platforms.length; i++) {
+          let platformname = platforms[i].name;
+          if(platforms[i].games){
+            games = games.concat(Object.values(platforms[i].games).map(function(game){
+              game.platform = {
+                uid:game.platform,
+                name:this
+              };
+              return game;
+            },platformname));
+          }
+        }
+        games.sort((a,b)=>{
+          if(a.name > b.name){
+            return 1;
+          }
+          else if(a.name < b.name){
+            return -1;
+          }
+          return 0;
+        });
+        resolve(games);
+      });
+    });
   },
-}
+  update:function(game){
+    return firebase.database().ref("platforms/"+game.platform+"/games/"+game.uid).update(game);
+  },
+};

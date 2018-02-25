@@ -7,11 +7,12 @@ const config = require('./config/index.js');
 // init app
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: false})); // to support URL-encoded bodies
+app.use(bodyParser.urlencoded({extended: true})); // to support URL-encoded bodies
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 
 //routes
 app.use(express.static("frontend"));
+app.use('/api/platform', require('./routes/platform')());
 app.use('/api/game', require('./routes/game')());
 
 if (module === require.main) {

@@ -73,6 +73,7 @@ const actions = {
 };
 
 export default {
+  namespaced:true,
   state,
   getters,
   mutations,
