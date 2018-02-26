@@ -1,7 +1,12 @@
 body {
     padding-top: 3em;
 }
-
+.fix-down{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
 @media (min-width: 992px) {
     body {
         padding-top: 3.5em;

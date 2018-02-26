@@ -24,27 +24,31 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
+              <router-link class="nav-link" :to="{ path: '/', query: { action: '#' }}">Home</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">PHolder 1</a>
+            <router-link class="nav-link" :to="{ path: '/', query: { action: '#' }}">PHolder1</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">PHolder 2</a>
+            <router-link class="nav-link" :to="{ path: '/', query: { action: '#' }}">PHolder 2</router-link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">PHolder 3</a>
-          </li>
+
         </ul>
       </div>
     </div>
   </nav>
 
+    <div id="app" class="col-lg-9"><router-view></router-view></div>
 
+  <!-- Footer -->
+  <footer class="py-2 bg-dark fix-down">
+    <div class="container">
+      <p class="text-center text-white">&nbsp</p>
+    </div>
+    <!-- /.container -->
+  </footer>
 
-    <div id="app"><router-view></router-view></div>
     <script src="bundle.js" charset="utf-8"></script>
+
   </body>
 </html>
