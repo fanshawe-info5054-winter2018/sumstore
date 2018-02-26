@@ -16,25 +16,51 @@ const router = new VueRouter({
             title: 'SumStore',
           }
         },
+        {
+          path: '/auth',
+          component: require('./view/auth.vue').default,
+          props: true,
+          meta: {
+            title: 'SumStore: Authentication',
+            handlesAuth: true
+          }
+        },
+        /******* Pages that require Authentication *******/
+        {
+          path: '/user/orders',
+          component: require('./view/user/orders.vue').default,
+          meta: {
+            title: 'Orders',
+            requiresAuth: true,
+          }
+        },
       ]
     },
+    /******* Pages outside the main page *******/
     {
-      path: '/auth',
-      component: require('./view/auth.vue').default,
-      props:true,
+      path: '/admin',
+      component: require('./view/admin.vue').default,
+      props: true,
       meta: {
-        title: 'SumStore: Authentication',
-        handlesAuth: true
-      }
-    },
-    /******* Pages that require Authentication *******/
-    {
-      path: '/user/orders',
-      component: require('./view/user/orders.vue').default,
-      meta: {
-        title: 'Orders',
-        requiresAuth: true,
-      }
+        title: 'SumStore: Admin',
+        // requiresAuth: true
+      },
+      children: [
+        {
+          path: '/',
+          component: require('./view/admin/home.vue').default,
+          meta: {
+            title: 'SumStore: Admin',
+          }
+        },
+        {
+          path: 'game',
+          component: require('./view/admin/game.vue').default,
+          meta: {
+            title: 'SumStore: Admin',
+          }
+        },
+      ]
     }
   ]
 });
@@ -61,10 +87,10 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some(record => record.meta.handlesAuth)) {
 
     if (localStorage.getItem("user") !== null) {
-      next({
-        path: '/user/orders',
-      });
-
+      // next({
+      //   path: '/user/orders',
+      // });
+      next();
     } else {
       next();
     }
