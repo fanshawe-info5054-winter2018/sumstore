@@ -53,6 +53,7 @@ const actions = {
   },
   save({commit},game) {
     return new Promise(function (resolve, reject) {
+      game = JSON.stringify(game);
       return axios.post('/api/game/save',{game}).then(response => {
         resolve(response);
       }).catch(err => {

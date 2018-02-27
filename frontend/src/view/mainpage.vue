@@ -20,7 +20,9 @@
           <li class="nav-item">
             <router-link class="nav-link" :to="{ path: 'auth', query: { action: 'register' }}">Register</router-link>
           </li>
-
+          <li class="nav-item">
+              <router-link class="nav-link" :to="{ path: '/admin'}">Admin Home</router-link>
+          </li>
         </ul>
       </div>
     </div>

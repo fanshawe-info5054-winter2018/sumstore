@@ -35,6 +35,10 @@ export default {
       this.$store.dispatch('platform/select',platform);
       this.$router.push({ path: '/admin/game', query: { action: 'new' }});
     }
+  },
+  created(){
+    this.$store.dispatch("platform/list");
+    this.$store.dispatch("game/listall");
   }
 }
 </script>
