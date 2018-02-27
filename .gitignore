@@ -1,4 +1,5 @@
-.idea/
+.idea
+.idea/*
 .vscode/
 node_modules/
 frontend/*.map
