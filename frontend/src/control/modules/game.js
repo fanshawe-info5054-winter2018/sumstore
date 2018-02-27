@@ -61,6 +61,16 @@ const actions = {
       });
     });
   },
+  remove({commit},game) {
+    return new Promise(function (resolve, reject) {
+      game = JSON.stringify(game);
+      return axios.post('/api/game/remove',{game}).then(response => {
+        resolve(response);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
 };
 
 export default {

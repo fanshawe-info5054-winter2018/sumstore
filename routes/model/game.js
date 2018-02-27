@@ -62,4 +62,7 @@ module.exports = {
   update:function(game){
     return firebase.database().ref("platforms/"+game.platform+"/games/"+game.uid).update(game);
   },
+  remove:function(game){
+    return firebase.database().ref("platforms/"+game.platform+"/games/").child(game.uid).remove();
+  },
 };

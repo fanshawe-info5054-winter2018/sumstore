@@ -1,20 +1,20 @@
 <template>
 <div>
-  <ul>
-    <li v-for="platform in platformlist">
+  <ul class="list-group">
+    <li class="list-group-item" v-for="platform in platformlist">
       <h3>
         {{platform.name}}
       </h3>
       games: 
-      <ul>
-        <li v-for="game in platform.games" @click="editGame(game)">
+      <ul class="list-group">
+        <li class="list-group-item" v-for="game in platform.games" @click="editGame(game)">
           Title: {{game.name}}<br/>
           Price: {{game.price}}<br/>
-          Rate: {{game.rate}}<br/>
+          Rating: {{game.rating}}<br/>
           Quantity in Stock: {{game.qty}}<br/>
         </li>
       </ul>
-      <button @click="addGame(platform)">Add a Game</button>
+      <button class="btn btn-secondary" @click="addGame(platform)">Add a Game</button>
     </li>
   </ul>
 </div>

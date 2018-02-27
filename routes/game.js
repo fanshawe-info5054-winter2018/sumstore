@@ -5,7 +5,7 @@ const gamemodel = require('./model/game');
 
 module.exports = ()=>{
   router.post("/save",(request,response)=>{
-    console.log(request.body);
+    console.log("saving",request.body);
     let game = JSON.parse(request.body.game);
     if(game.uid){
       return gamemodel.update(game).then(()=>{
@@ -32,6 +32,16 @@ module.exports = ()=>{
   router.post("/listall",(request,response)=>{
     gamemodel.listAll().then(games=>{
       response.json(games);
+    });
+  },()=>{
+    response.status(500).send({reason:"error trying to delete game"});
+  });
+
+  router.post("/remove",(request,response)=>{
+    console.log("deleting game:",request.body.game);
+    let game = JSON.parse(request.body.game);
+    gamemodel.remove(game).then(()=>{
+      response.status(200).send();
     });
   });
 

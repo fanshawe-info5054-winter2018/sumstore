@@ -28,8 +28,8 @@
     </a>
   </div>
 
-  <ul>
-    <li v-for="game in gamelist">
+  <ul class="list-group">
+    <li class="list-group-item" v-for="game in gamelist">
       <h3>
         {{game.name}}
       </h3>
