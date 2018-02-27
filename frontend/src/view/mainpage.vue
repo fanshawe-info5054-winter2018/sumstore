@@ -31,12 +31,12 @@
   <router-view></router-view>
 
 <!-- Footer -->
-  <footer class="py-2 bg-dark fix-down">
+  <!-- <footer class="py-2 bg-dark fix-down">
     <div class="container">
       <p class="text-center text-white">&nbsp</p>
-    </div>
+    </div> -->
     <!-- /.container -->
-  </footer>
+  <!-- </footer> -->
 </div>
 </template>
 <script>
