@@ -8,7 +8,7 @@ In order to install all dependencies for development purposes, run the following
 
 ## Deployment dependencies
 To install only the dependencies needed to run the project, run the following script:
-`npm run inst`
+`npm install --only=prod`
 
 # Running the project
 
