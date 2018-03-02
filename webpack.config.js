@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './frontend/src/app.js',
+  entry: ['babel-polyfill','./frontend/src/app.js'],
   output: {
     path:__dirname+'/',
     filename: './frontend/bundle.js'
@@ -14,7 +14,14 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+      test: /\.js$/,
+      exclude: /(node_modules)/,
+      use: {
+        loader: 'babel-loader',
       }
+    }
     ]
   }
 };
