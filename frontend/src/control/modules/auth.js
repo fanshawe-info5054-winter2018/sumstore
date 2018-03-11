@@ -5,7 +5,7 @@ const REGISTRATION = "REGISTRATION";
 const LOGOUT = "LOGOUT";
 const USER = "USER";
 
-const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
+const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : "";
 
 const state = {
   user: storedUser,
@@ -39,9 +39,9 @@ const actions = {
 
   register({commit}, creds) {
     return new Promise(function (success, error) {
-      return axios.post('/api/auth/login', {user:creds.username,pw:creds.password}).then(response => {
-        response.data.user.loggedIn = true;
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+      return axios.post('/api/auth/register', {token:btoa(JSON.stringify({user:creds}))})
+      .then(response => {
+        localStorage.setItem('user', JSON.stringify(response.data));
         commit(LOGIN, response.data.user);
         success(response);
       }).catch(err => {
@@ -52,10 +52,11 @@ const actions = {
 
   login({commit}, creds) {
     return new Promise(function (success, error) {
-      return axios.post('/api/auth/login', {user:creds.username,pw:creds.password}).then(response => {
-        response.data.user.loggedIn = true;
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        commit(LOGIN, response.data.user);
+      return axios.post('/api/auth/login', {token:btoa(JSON.stringify({user:creds}))})
+      .then(response => {
+        console.log(response);
+        localStorage.setItem('user', JSON.stringify(response.data));
+        commit(LOGIN, response.data);
         success(response);
       }).catch(err => {
         error(err);

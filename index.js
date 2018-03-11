@@ -12,6 +12,7 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 
 //routes
 app.use(express.static("frontend"));
+app.use('/api/auth', require('./routes/auth')());
 app.use('/api/platform', require('./routes/platform')());
 app.use('/api/game', require('./routes/game')());
 

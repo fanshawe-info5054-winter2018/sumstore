@@ -43,7 +43,7 @@ const router = new VueRouter({
       props: true,
       meta: {
         title: 'SumStore: Admin',
-        // requiresAuth: true
+        requiresAuth: true
       },
       children: [
         {
@@ -70,17 +70,28 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
+    let loggedUser = localStorage.getItem("user");
 
-    if (localStorage.getItem("user") === null) {
-
+    if(to.fullPath.startsWith("/admin") && (!loggedUser || loggedUser.admin === null)){
       next({
-        path: '/login',
+        path: '/auth',
         query: {
-          redirect: to.fullPath,
+          action:"login",
         },
 
       });
-    } else {
+    }
+    else if (loggedUser === null) {
+
+      next({
+        path: '/auth',
+        query: {
+          action:"login",
+        },
+
+      });
+    }
+     else {
       next();
     }
 

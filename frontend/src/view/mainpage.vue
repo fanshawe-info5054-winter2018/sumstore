@@ -10,18 +10,24 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
+          <li class="nav-item" :class="{active:$route.path == '/'}">
               <router-link class="nav-link" :to="{ path: '/'}">Home</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!user" class="nav-item" :class="{active:$route.path == '/auth' && $route.query.action =='login'}">
             <router-link class="nav-link" :to="{ path: 'auth', query: { action: 'login' }}">Login</router-link>
 
           </li>
-          <li class="nav-item">
+          <li v-if="!user" class="nav-item" :class="{active:$route.path == '/auth' && $route.query.action =='register'}">
             <router-link class="nav-link" :to="{ path: 'auth', query: { action: 'register' }}">Register</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="user" class="nav-item" :class="{active:$route.path == '/user/orders'}">
+            <router-link class="nav-link" :to="{ path: '/user/orders'}">Hello, {{user.username}}</router-link>
+          </li>
+          <li v-if="user && user.admin" class="nav-item" :class="{active:$route.path == '/admin'}">
               <router-link class="nav-link" :to="{ path: '/admin'}">Admin Home</router-link>
+          </li>
+          <li v-if="user" class="nav-item" :class="{active:$route.path == '/user/orders'}">
+            <a class="nav-link" href="" @click="logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -45,6 +51,22 @@ export default {
   created(){
     this.$store.dispatch("platform/list");
     this.$store.dispatch("game/listall");
+  },
+  methods:{
+    logout(){
+      this.$store.dispatch("auth/logout");
+      console.log("logging out");
+      location.reload();
+    }
+  },
+  computed:{
+    user(){
+      let loggedUser = this.$store.getters["auth/user"];
+      if(loggedUser){
+        return JSON.parse(atob(loggedUser.split('.')[1]));
+      }
+      return null;
+    }
   }
 };
 </script>
