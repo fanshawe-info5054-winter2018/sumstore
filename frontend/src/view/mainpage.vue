@@ -14,11 +14,11 @@
               <router-link class="nav-link" :to="{ path: '/'}">Home</router-link>
           </li>
           <li v-if="!user" class="nav-item" :class="{active:$route.path == '/auth' && $route.query.action =='login'}">
-            <router-link class="nav-link" :to="{ path: 'auth', query: { action: 'login' }}">Login</router-link>
+            <router-link class="nav-link" :to="{ path: '/auth', query: { action: 'login' }}">Login</router-link>
 
           </li>
           <li v-if="!user" class="nav-item" :class="{active:$route.path == '/auth' && $route.query.action =='register'}">
-            <router-link class="nav-link" :to="{ path: 'auth', query: { action: 'register' }}">Register</router-link>
+            <router-link class="nav-link" :to="{ path: '/auth', query: { action: 'register' }}">Register</router-link>
           </li>
           <li v-if="user" class="nav-item" :class="{active:$route.path == '/user/orders'}">
             <router-link class="nav-link" :to="{ path: '/user/orders'}">Hello, {{user.username}}</router-link>
@@ -26,7 +26,7 @@
           <li v-if="user && user.admin" class="nav-item" :class="{active:$route.path == '/admin'}">
               <router-link class="nav-link" :to="{ path: '/admin'}">Admin Home</router-link>
           </li>
-          <li v-if="user" class="nav-item" :class="{active:$route.path == '/user/orders'}">
+          <li v-if="user" class="nav-item">
             <a class="nav-link" href="" @click="logout">Logout</a>
           </li>
         </ul>

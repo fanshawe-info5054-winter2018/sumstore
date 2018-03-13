@@ -41,8 +41,7 @@ const actions = {
     return new Promise(function (success, error) {
       return axios.post('/api/auth/register', {token:btoa(JSON.stringify({user:creds}))})
       .then(response => {
-        localStorage.setItem('user', JSON.stringify(response.data));
-        commit(LOGIN, response.data.user);
+        commit(USER, response.data);
         success(response);
       }).catch(err => {
         error(err);
@@ -55,8 +54,7 @@ const actions = {
       return axios.post('/api/auth/login', {token:btoa(JSON.stringify({user:creds}))})
       .then(response => {
         console.log(response);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        commit(LOGIN, response.data);
+        commit(USER, response.data);
         success(response);
       }).catch(err => {
         error(err);
