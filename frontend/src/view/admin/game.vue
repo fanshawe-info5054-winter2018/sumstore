@@ -21,6 +21,11 @@
         <input type="number" class="form-control" v-model="game.qty" required>
       </label>
       </div>
+      <div>
+      <label for="title">Game Trailer Video:
+        <input type="text" class="form-control" v-model="game.trailer" required>
+      </label>
+      </div>
       <input type="submit" class="btn btn-success" value="Save">
       
       <!-- Button trigger modal -->
