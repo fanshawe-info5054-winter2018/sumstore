@@ -27,12 +27,16 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
-    <div>
-      <input type="text" v-model="search" placeholder="Search for a game title"/>
-      <select v-model="splatform">
-        <option value="">Select a Platform</option>
+    <div class="row">
+      <div class="input-group col-sm-4">
+      <input type="text" v-model="search" class="form-control" placeholder="Search for a game title"/>
+      </div>
+      <div class="input-group col-md-4">
+      <select v-model="splatform" class="form-control">
+        <option value="">Filter by Platform</option>
         <option v-for="platform in platformlist" :key="platform.name">{{platform.name}}</option>
       </select>
+      </div>
     </div>
     <ul class="list-group">
       <li class="list-group-item" v-for="game in gamelist">
