@@ -29,6 +29,16 @@ module.exports = {
       });
     });
   },
+  fetch:function({platformuid,gameuid}){
+    //lists all games from a platform, returns a promise with an array when resolved
+    return new Promise((resolve,reject)=>{
+      return firebase.database().ref("platforms/"+platformuid+"/games/"+gameuid).once("value").then(snapshot=>{
+        resolve(snapshot.val());
+      },err=>{
+        reject(err);
+      });
+    });
+  },
   listAll:function(){
     //lists all games from all platforms and sorts them by name, returns a promise with an array when resolved
     return new Promise((resolve,reject)=>{
