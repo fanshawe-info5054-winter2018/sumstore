@@ -29,6 +29,23 @@ module.exports = ()=>{
     });
   });
 
+  router.post("/fetch",(request,response)=>{
+    console.log("fetching",request.body);
+    let gameuid = request.body.gameuid;
+    let platformuid = request.body.platformuid;
+    if(gameuid && platformuid){
+      return gamemodel.fetch({platformuid,gameuid}).then((game)=>{
+        console.log(JSON.stringify(game));
+        response.json(game);
+      },()=>{
+        response.status(500).send({reason:"error trying to fetch a game"});
+      });
+    }
+    else{
+      response.status(500).send({reason:"error trying to fetch a game"});
+    }
+  });
+
   router.post("/listall",(request,response)=>{
     gamemodel.listAll().then(games=>{
       response.json(games);

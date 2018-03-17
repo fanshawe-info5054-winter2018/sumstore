@@ -51,6 +51,16 @@ const actions = {
   select({commit},game) {
     return commit(SELECTEDGAME, game);
   },
+  fetch({commit},{platformuid,gameuid}){
+    return new Promise(function (resolve, reject) {
+      return axios.post('/api/game/fetch',{platformuid,gameuid}).then(response => {
+        commit(SELECTEDGAME, response.data);
+        resolve(response);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
   save({commit},game) {
     return new Promise(function (resolve, reject) {
       game = JSON.stringify(game);

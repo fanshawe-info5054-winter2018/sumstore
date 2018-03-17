@@ -17,6 +17,14 @@ const router = new VueRouter({
           }
         },
         {
+          path: '/gamedetails',
+          component: require('./view/mainpage/gamedetails.vue').default,
+          props: true,
+          meta: {
+            title: 'SumStore: Game Details',
+          }
+        },
+        {
           path: '/auth',
           component: require('./view/auth.vue').default,
           props: true,
