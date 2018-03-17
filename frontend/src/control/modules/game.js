@@ -3,7 +3,7 @@ import axios from 'axios';
 const GAMES = "GAMES";
 const SELECTEDGAME = "SELECTEDGAME";
 
-const storedGames = localStorage.getItem('games') ? JSON.parse(localStorage.getItem('games')) : {};
+const storedGames = localStorage.getItem('games') ? JSON.parse(localStorage.getItem('games')) : [];
 const storedSelectedGame = localStorage.getItem('selectedGame') ? JSON.parse(localStorage.getItem('selectedGame')) : {};
 
 const state = {
