@@ -2,6 +2,14 @@
 <div>
   <!-- put game details html here -->
   <h1>Game Details</h1>
+          <h3>
+            {{game.name}}
+          </h3>
+          platform: {{game.platform.name}}
+          price: {{game.price}}
+          rating: {{game.rating}}
+          qty: {{game.qty}}
+
 </div>
 </template>
 <script>
