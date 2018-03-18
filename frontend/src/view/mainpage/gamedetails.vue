@@ -5,7 +5,7 @@
           <h3>
             {{game.name}}
           </h3>
-          platform: {{game.platform.name}}
+          platform: {{game.platform}}
           price: {{game.price}}
           rating: {{game.rating}}
           qty: {{game.qty}}
