@@ -3,7 +3,7 @@
   <br>
   <h2>Orders</h2>
   <br>
-  <label>Are you wondering where your order is?</label>
+  <!-- <label>Are you wondering where your order is?</label>
 
   <br>
   <label>Filter search by</label><br>
@@ -19,7 +19,7 @@
   <input type="search" class="form-control" id="mySearch" placeholder="Search through orders...">
   <button type="button" class="btn btn-secondary">Search</button>
   <br>
-  <br>
+  <br> -->
   <h3>Order History</h3>
 
   <table id="OrdersTable" class="table">
