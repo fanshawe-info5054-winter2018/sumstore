@@ -8,7 +8,9 @@
   <p>
     For: {{game.platform.name}}
   </p>
-  <iframe width="854" height="510" :src="game.trailer.replace('watch?v=', 'embed/')" frameborder="0" allowfullscreen></iframe>
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" :src="game.trailer.replace('watch?v=', 'embed/')" frameborder="0" allowfullscreen></iframe>
+  </div>
   <div>
     <div class="float-left">
       <span class="badge badge-success" v-if="game.qty>=10">

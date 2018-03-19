@@ -20,9 +20,8 @@ body {
 }
 
 .price{
-    /* color: #10cf1a; */
     font-size: 2em;
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 .rating{
