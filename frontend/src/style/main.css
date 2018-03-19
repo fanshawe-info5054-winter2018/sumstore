@@ -9,6 +9,28 @@ body {
     width: 100%;
 }
 
+.list-group-item a{
+    color: #343a40;
+    text-decoration: none;
+}
+
+.list-group-item a:hover{
+    color: #647280;
+    text-decoration: none;
+}
+
+.price{
+    /* color: #10cf1a; */
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.rating{
+    color:#f47b2b;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
 .col-lg-9{
     margin: 0 auto;
 }

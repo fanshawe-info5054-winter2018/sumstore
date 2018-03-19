@@ -41,10 +41,12 @@
     <ul class="list-group">
       <li class="list-group-item" v-for="game in gamelist">
         <router-link :to="{ path: '/gamedetails', query: { gameuid: game.uid, platformuid: game.platform.uid }}">
-        <h3>
-          {{game.name}}
-        </h3>
-        platform: {{game.platform.name}}
+          <div>
+            <h3>
+              {{game.name}}
+            </h3>
+            platform: {{game.platform.name}}
+          </div>
         </router-link>
       </li>
     </ul>
