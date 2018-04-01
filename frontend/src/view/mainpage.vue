@@ -23,6 +23,9 @@
           <li v-if="user" class="nav-item" :class="{active:$route.path == '/user/orders'}">
             <router-link class="nav-link" :to="{ path: '/user/orders'}">Hello, {{user.username}}</router-link>
           </li>
+          <li class="nav-item" :class="{active:$route.path == '/user/cart'}">
+            <router-link class="nav-link" :to="{ path: '/user/cart'}">Cart <span v-if="cart.length" class="badge badge-light">{{cart.length}}</span></router-link>
+          </li>
           <li v-if="user && user.admin" class="nav-item" :class="{active:$route.path == '/admin'}">
               <router-link class="nav-link" :to="{ path: '/admin'}">Admin Home</router-link>
           </li>
@@ -66,6 +69,9 @@ export default {
         return JSON.parse(atob(loggedUser.split('.')[1]));
       }
       return null;
+    },
+    cart(){
+      return this.$store.getters["user/cart"];
     }
   }
 };

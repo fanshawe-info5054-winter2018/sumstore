@@ -38,6 +38,7 @@
       </select>
       </div>
     </div>
+    <br/>
     <ul class="list-group">
       <li class="list-group-item" v-for="game in gamelist">
         <router-link :to="{ path: '/gamedetails', query: { gameuid: game.uid, platformuid: game.platform.uid }}">
