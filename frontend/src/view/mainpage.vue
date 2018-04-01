@@ -54,14 +54,14 @@ export default {
   },
   methods:{
     logout(){
-      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("user/logout");
       console.log("logging out");
       location.reload();
     }
   },
   computed:{
     user(){
-      let loggedUser = this.$store.getters["auth/user"];
+      let loggedUser = this.$store.getters["user/user"];
       if(loggedUser){
         return JSON.parse(atob(loggedUser.split('.')[1]));
       }

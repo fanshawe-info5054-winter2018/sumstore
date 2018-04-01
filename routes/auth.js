@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const authmodel = require('./model/auth');
+const usermodel = require('./model/user');
 
 module.exports = () => {
   router.post("/register", (request, response) => {
     let decoded = Buffer.from(request.body.token, 'base64').toString();
     user = JSON.parse(decoded).user;
     user.password = Buffer.from(user.password).toString('base64');
-    return authmodel.getUser(user)
+    return usermodel.getUser(user)
       .then(oldUser => {
         if(!oldUser){
-          return authmodel.register(user);
+          return usermodel.register(user);
         }
         else{
           return Promise.reject("user already exists");
@@ -21,7 +21,7 @@ module.exports = () => {
         delete dbUser.password;
         console.log("dbUser");
         console.log(dbUser);
-        response.json(authmodel.encode(dbUser));
+        response.json(usermodel.encode(dbUser));
       })
       .catch(err => {
         console.log(err);
@@ -34,14 +34,14 @@ module.exports = () => {
     console.log(request.body.token);
     let decoded = Buffer.from(request.body.token, 'base64').toString();
     user = JSON.parse(decoded).user;
-    authmodel.getUser(user)
+    usermodel.getUser(user)
       .then(dbUser => {
         if (dbUser) {
           dbUser = dbUser[Object.keys(dbUser)[0]];
           if (dbUser.username === user.username &&
             dbUser.password === Buffer.from(user.password).toString('base64')) {
             delete dbUser.password;
-            response.json(authmodel.encode(dbUser));
+            response.json(usermodel.encode(dbUser));
           }
           else {
             console.log("invalid login attempt");

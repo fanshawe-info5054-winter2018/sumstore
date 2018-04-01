@@ -15,6 +15,7 @@ app.use(express.static("frontend"));
 app.use('/api/auth', require('./routes/auth')());
 app.use('/api/platform', require('./routes/platform')());
 app.use('/api/game', require('./routes/game')());
+app.use('/api/user', require('./routes/user')());
 
 if (module === require.main) {
   // [START server]

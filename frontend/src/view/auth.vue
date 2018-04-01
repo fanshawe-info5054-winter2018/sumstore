@@ -27,9 +27,9 @@ export default {
       user: { username: "", email: "", password: "" }
     };
   },
-  computed:{
-    action(){
-      return this.$route.query.action
+  computed: {
+    action() {
+      return this.$route.query.action;
     }
   },
   created() {
@@ -37,34 +37,37 @@ export default {
   },
   methods: {
     submit() {
-      if(this.action == 'login'){
+      if (this.action == "login") {
         delete this.user.email;
-        this.$store.dispatch("auth/login", this.user)
-        .then(()=>{
-          let loggedUser = JSON.parse(atob(this.$store.getters["auth/user"].split('.')[1]));
-          console.log(loggedUser);
-          if(loggedUser.admin){
-            console.log("admin!!");
-            
-            this.$router.push("/admin");
-          }else{
+        this.$store
+          .dispatch("user/login", this.user)
+          .then(() => {
+            let loggedUser = JSON.parse(
+              atob(this.$store.getters["user/user"].split(".")[1])
+            );
+            console.log(loggedUser);
+            if (loggedUser.admin) {
+              console.log("admin!!");
+
+              this.$router.push("/admin");
+            } else {
+              this.$router.push("/user/orders");
+            }
+          })
+          .catch(err => {
+            alert("invalid username or password");
+          });
+      } else if (this.action == "register") {
+        this.$store
+          .dispatch("user/register", this.user)
+          .then(() => {
             this.$router.push("/user/orders");
-          }
-        })
-        .catch(err=>{
-          alert("invalid username or password");
-        });
+          })
+          .catch(err => {
+            alert("something went wrong: " + err.response.data);
+          });
       }
-      else if(this.action == 'register'){
-        this.$store.dispatch("auth/register", this.user)
-        .then(()=>{
-          this.$router.push("/user/orders");
-        })
-        .catch(err=>{
-          alert("something went wrong: "+err.response.data);
-        });
-      }
-    },
+    }
   }
 };
 </script>
