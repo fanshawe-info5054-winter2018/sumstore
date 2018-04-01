@@ -49,6 +49,14 @@ const router = new VueRouter({
             requiresAuth: true,
           }
         },
+        {
+          path: '/user/orderdetails',
+          component: require('./view/user/orderdetails.vue').default,
+          meta: {
+            title: 'Order Details',
+            requiresAuth: true,
+          }
+        },
       ]
     },
     /******* Pages outside the main page *******/

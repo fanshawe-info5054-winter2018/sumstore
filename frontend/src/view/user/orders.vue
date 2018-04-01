@@ -26,7 +26,7 @@
     <thead class="thead-light">
     <tr><th>Order Number</th><th>Date</th><th>Status</th><th>Tracking Number</th><th>Order Sum</th></tr>
     </thead>
-    <tr v-for="order in orders">
+    <tr v-for="order in orders" @click="orderDetails(order)">
       <td>{{order.number}}</td>
       <td>{{order.date.getMonth()+1}}.{{order.date.getDate()}}.{{order.date.getFullYear()}}</td>
       <td>{{order.status}}</td>
@@ -45,6 +45,12 @@ export default {
   },
   created(){
     this.$store.dispatch("user/getorders");
+  },
+  methods:{
+    orderDetails(order){
+      this.$store.dispatch('user/selectOrder',order);
+      this.$router.push({ path: '/user/orderdetails'});
+    }
   }
 };
 </script>

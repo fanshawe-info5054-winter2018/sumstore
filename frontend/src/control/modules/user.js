@@ -6,20 +6,25 @@ const LOGOUT = "LOGOUT";
 const USER = "USER";
 const CART = "CART";
 const ORDERS = "ORDERS";
+const SELECTEDORDER = "SELECTEDORDER";
 
 const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : "";
 const storedCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+const storedOrders = localStorage.getItem('orders') ? JSON.parse(localStorage.getItem('orders')) : [];
+const storedSelectedOrder = localStorage.getItem('selectedOrder') ? JSON.parse(localStorage.getItem('selectedOrder')) : {status:"",products:[]};
 
 const state = {
   user: storedUser,
   cart: storedCart,
-  orders: [],
+  orders: storedOrders,
+  selectedOrder: storedSelectedOrder,
 };
 
 const getters = {
   user: state => state.user,
   cart: state => state.cart,
   orders: state => state.orders,
+  selectedOrder: state => state.selectedOrder,
 };
 
 const mutations = {
@@ -43,6 +48,10 @@ const mutations = {
       order.date = new Date(order.date);
       return order;
     });
+  },
+  [SELECTEDORDER](state, order) {
+    state.selectedOrder = order;
+    localStorage.setItem('selectedOrder', JSON.stringify(order));
   },
   registerPage(state) {
     state.registerPage = true;
@@ -103,17 +112,30 @@ const actions = {
     }
   },
 
-  getorders({ commit, state }) {
+  getorders(context) {
     return new Promise(function (success, error) {
-      return axios.post('/api/user/getorders', { token: state.user })
+      return axios.post('/api/user/getorders', { token: context.state.user })
         .then(response => {
-          console.log(response);
-          commit(ORDERS, response.data);
+          let games = context.rootState.game.games;
+          response.data.forEach(order => {
+            order.products = order.products.map((product) => {
+              return {
+                game: games.find(game => {
+                  return game.uid == product.game;
+                })
+              };
+            });
+          });
+          context.commit(ORDERS, response.data);
           success(response);
         }).catch(err => {
           error(err);
         });
     });
+  },
+
+  selectOrder({commit},order){
+    return commit(SELECTEDORDER, order);
   },
 
 };

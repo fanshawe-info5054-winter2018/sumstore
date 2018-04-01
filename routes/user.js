@@ -13,42 +13,21 @@ module.exports = () => {
       //TODO: THIS IS A TEST CODE
       response.json([
         {
-          number:123,date:new Date(),status:"Shipped",tracking:"CA241221",price:29.59
+          number:123,date:new Date(),status:"Shipped",tracking:"CA241221",price:29.59,products:[{
+            game:"-L69ycax8smuoj4RbMWy"
+          }]
         },
         {
-          number:124,date:new Date(),status:"Shipped",tracking:"CA14231",price:59.65
+          number:124,date:new Date(),status:"Shipped",tracking:"CA14231",price:59.65, products:[]
         },
         {
-          number:125,date:new Date(),status:"Shipped",tracking:"CH13544353",price:21.99
+          number:125,date:new Date(),status:"Shipped",tracking:"CH13544353",price:21.99, products:[]
         },
         {
-          number:126,date:new Date(),status:"Shipped",tracking:"CA51342",price:23.88
+          number:126,date:new Date(),status:"Shipped",tracking:"CA51342",price:23.88, products:[]
         }
       ]);
     });
-    // usermodel.getUser(user)
-    //   .then(dbUser => {
-    //     if (dbUser) {
-    //       dbUser = dbUser[Object.keys(dbUser)[0]];
-    //       if (dbUser.username === user.username &&
-    //         dbUser.password === Buffer.from(user.password).toString('base64')) {
-    //         delete dbUser.password;
-    //         response.json(usermodel.encode(dbUser));
-    //       }
-    //       else {
-    //         console.log("invalid login attempt");
-    //         response.status(401).send();
-    //       }
-    //     }
-    //     else {
-    //       console.log("account not found");
-    //       response.status(401).send();
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     response.status(500).send();
-    //   });
   });
 
   return router;
