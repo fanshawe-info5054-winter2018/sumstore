@@ -25,7 +25,8 @@
     </div>
     <div class="float-right">
       <span class="rating">
-        rating: {{game.rating*5}}/5
+        <input type="image" value="like" class="btn" src="/images/thumbs-up.jpg"/>
+        <input type="image" value="dislike" class="btn" src="/images/thumbs-down.jpg"/>
       </span>
       <br/>
       <span class="price">
