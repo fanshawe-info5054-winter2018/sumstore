@@ -25,6 +25,13 @@ const router = new VueRouter({
           }
         },
         {
+          path: '/user/cart',
+          component: require('./view/user/cart.vue').default,
+          meta: {
+            title: 'Cart',
+          }
+        },
+        {
           path: '/auth',
           component: require('./view/auth.vue').default,
           props: true,

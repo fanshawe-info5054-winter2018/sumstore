@@ -11,6 +11,7 @@
   <div class="embed-responsive embed-responsive-16by9">
     <iframe class="embed-responsive-item" :src="game.trailer.replace('watch?v=', 'embed/')" frameborder="0" allowfullscreen></iframe>
   </div>
+  <br/>
   <div>
     <div class="float-left">
       <span class="badge badge-success" v-if="game.qty>=10">
@@ -22,8 +23,6 @@
       <span class="badge badge-dark" v-else>
         Out of Stock
       </span>
-    </div>
-    <div class="float-right">
       <span class="rating">
         <input type="image" value="like" class="btn" src="/images/thumbs-up.jpg"/>
         <input type="image" value="dislike" class="btn" src="/images/thumbs-down.jpg"/>
@@ -32,6 +31,9 @@
       <span class="price">
         price: {{game.price}}
       </span>
+    </div>
+    <div class="float-right">
+      <button class="btn btn-primary" :disabled="isInCart" @click="addToCart()">Add to Cart</button>
     </div>
   </div>
 
@@ -54,6 +56,18 @@ export default {
         }
       );
       return game;
+    },
+    isInCart() {
+      return this.$store.getters["user/cart"].findIndex(
+        product => {
+          return product.game.uid == this.game.uid;
+        }
+      ) > -1;
+    }
+  },
+  methods:{
+    addToCart(){
+      this.$store.dispatch("user/addToCart",this.game);
     }
   }
 };

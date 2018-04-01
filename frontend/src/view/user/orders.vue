@@ -26,19 +26,25 @@
     <thead class="thead-light">
     <tr><th>Order Number</th><th>Date</th><th>Status</th><th>Tracking Number</th><th>Order Sum</th></tr>
     </thead>
-    <tr><td>66636537</td><td>03.03.18</td><td>Processing</td><td>0123456789101112</td><td>$ 39.99</td></tr>
-    <tr><td>66123123</td><td>03.03.18</td><td>cancelled</td><td>0123456789101112</td><td>$ 39.99</td></tr>
-    <tr><td>66639876</td><td>01.09.18</td><td>OrderUnsent</td><td>0123456789101112</td><td>$ 9.99</td></tr>
-    <tr><td>65776087</td><td>01.03.18</td><td>shipped</td><td>0123456789101112</td><td>$ 4.99</td></tr>
-    <tr><td>65636539</td><td>02.03.18</td><td>shipped</td><td>0123456789101112</td><td>$ 79.98</td></tr>
-    <tr><td>63689510</td><td>12.03.17</td><td>shipped</td><td>0123456789101112</td><td>$ 39.99</td></tr>
-    <tr><td>63646599</td><td>05.07.17</td><td>shipped</td><td>0123456789101112</td><td>$ 39.99</td></tr>
-    <tr><td>62156715</td><td>27.03.17</td><td>shipped</td><td>0123456789101112</td><td>$ 39.99</td></tr>
+    <tr v-for="order in orders">
+      <td>{{order.number}}</td>
+      <td>{{order.date.getMonth()+1}}.{{order.date.getDate()}}.{{order.date.getFullYear()}}</td>
+      <td>{{order.status}}</td>
+      <td>{{order.tracking}}</td>
+      <td>${{order.price}}</td>
+    </tr>
   </table>
 </form>
 </template>
 <script>
 export default {
-  name:"orders"
+  computed:{
+    orders(){
+      return this.$store.getters["user/orders"];
+    }
+  },
+  created(){
+    this.$store.dispatch("user/getorders");
+  }
 };
 </script>
