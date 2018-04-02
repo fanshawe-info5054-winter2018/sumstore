@@ -6,11 +6,14 @@
   <h3>Order status: {{order.status}}</h3>
   <ul>
     <li v-for="product in order.products">
-      <span>{{product.game.name}}</span>
-      <span>${{product.game.price}}</span>
+      <span>Order Number: {{order.number}}</span></br>
+      <span>Game Title: {{product.game.name}}</span></br>
+      <span>Subtotal: ${{product.game.price}}</span></br>
+      <span>Total: ${{order.price}}</span></br>
+      <span>Date Purchased: {{order.date}}</span></br>
+      <span>Tracking #: {{order.tracking}}</span>
     </li>
   </ul>
-<!--put order total price here and maybe other details-->
 </div>
 </template>
 <script>
