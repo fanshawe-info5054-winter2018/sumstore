@@ -32,6 +32,13 @@ const router = new VueRouter({
           }
         },
         {
+          path: '/user/checkout',
+          component: require('./view/user/checkout.vue').default,
+          meta: {
+            title: 'Checkout',
+          }
+        },
+        {
           path: '/auth',
           component: require('./view/auth.vue').default,
           props: true,

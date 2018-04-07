@@ -24,14 +24,14 @@
 
   <table id="OrdersTable" class="table">
     <thead class="thead-light">
-    <tr><th>Order Number</th><th>Date</th><th>Status</th><th>Tracking Number</th><th>Order Sum</th></tr>
+    <tr><th>Order Number</th><th>Date</th><th>Status</th><th>Tracking Number</th><th>Order Total</th></tr>
     </thead>
     <tr v-for="order in orders" @click="orderDetails(order)">
-      <td>{{order.number}}</td>
+      <td>{{order.uid}}</td>
       <td>{{order.date.getMonth()+1}}.{{order.date.getDate()}}.{{order.date.getFullYear()}}</td>
       <td>{{order.status}}</td>
       <td>{{order.tracking}}</td>
-      <td>${{order.price}}</td>
+      <td>${{order.total.toFixed(2)}}</td>
     </tr>
   </table>
 </form>

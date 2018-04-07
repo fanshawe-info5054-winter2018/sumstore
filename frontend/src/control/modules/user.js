@@ -11,13 +11,14 @@ const SELECTEDORDER = "SELECTEDORDER";
 const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : "";
 const storedCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 const storedOrders = localStorage.getItem('orders') ? JSON.parse(localStorage.getItem('orders')) : [];
-const storedSelectedOrder = localStorage.getItem('selectedOrder') ? JSON.parse(localStorage.getItem('selectedOrder')) : {status:"",products:[]};
+const storedSelectedOrder = localStorage.getItem('selectedOrder') ? JSON.parse(localStorage.getItem('selectedOrder')) : { status: "", products: [] };
 
 const state = {
   user: storedUser,
   cart: storedCart,
   orders: storedOrders,
   selectedOrder: storedSelectedOrder,
+  shipping: 5,
 };
 
 const getters = {
@@ -25,6 +26,7 @@ const getters = {
   cart: state => state.cart,
   orders: state => state.orders,
   selectedOrder: state => state.selectedOrder,
+  shipping: state => state.shipping,
 };
 
 const mutations = {
@@ -94,22 +96,26 @@ const actions = {
       success();
     });
   },
-  
-  addToCart({commit, state}, game){
+
+  addToCart({ commit, state }, game) {
     let cart = state.cart;
-    cart.push({game});
-    commit(CART,cart);
+    cart.push({ game });
+    commit(CART, cart);
   },
 
-  removeFromCart({commit, state}, game){
+  removeFromCart({ commit, state }, game) {
     let cart = state.cart;
-    let index = cart.findIndex((product)=>{
+    let index = cart.findIndex((product) => {
       return product.game.uid === game.uid;
     });
-    if(index>-1){
-      cart.splice(index,1);
-      commit(CART,cart);
+    if (index > -1) {
+      cart.splice(index, 1);
+      commit(CART, cart);
     }
+  },
+
+  clearCart({ commit}) {
+    commit(CART, []);
   },
 
   getorders(context) {
@@ -134,8 +140,22 @@ const actions = {
     });
   },
 
-  selectOrder({commit},order){
+  selectOrder({ commit }, order) {
     return commit(SELECTEDORDER, order);
+  },
+
+  checkout(context, { address, payment, total }) {
+    let products = context.state.cart.map((product) => {
+      return { game: product.game.uid };
+    });
+    return new Promise(function (success, error) {
+      return axios.post('/api/user/checkout', { token: context.state.user, address, payment, products, total })
+        .then(response => {
+          success(response);
+        }).catch(err => {
+          error(err);
+        });
+    });
   },
 
 };

@@ -38,4 +38,30 @@ module.exports = {
         });
     });
   },
+  newOrder: function (order) {
+    return new Promise((resolve, reject) => {
+      let neworder = firebase.database().ref("orders").push();
+      order.uid = neworder.key;
+      order.status = "Placed";
+      order.date = new Date().toDateString();
+      return neworder.set(order)
+      .then(()=>{
+        resolve(order);
+      });
+    });
+  },
+  getOrders: function (user) {
+    return new Promise((resolve, reject) => {
+      return firebase.database().ref("orders").orderByChild('user').once("value")
+        .then(snapshot => {
+          let orders = Object.values(snapshot.val());
+          resolve(orders.filter((order)=>{
+            return order.user == user;
+          }));
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
 };
