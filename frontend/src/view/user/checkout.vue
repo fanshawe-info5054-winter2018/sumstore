@@ -4,6 +4,11 @@
   <h2>Checkout</h2>
   <br>
   <div v-if="cart.length">
+    <div v-if="!user.length" class="form-group">
+      <label for="email">Email:
+        <input type="text" class="form-control" v-model="address.email" required>
+      </label>
+    </div>
     <div class="row">
       <div class="col-md">
         <h4>Shipping Information</h4>
@@ -72,7 +77,8 @@ export default {
       address: {
         street: "",
         city: "",
-        province: ""
+        province: "",
+        email:""
       },
       payment: {
         ccnumber: "",
@@ -82,6 +88,9 @@ export default {
     };
   },
   computed: {
+    user(){
+      return this.$store.getters["user/user"];
+    },
     cart() {
       return this.$store.getters["user/cart"];
     },
