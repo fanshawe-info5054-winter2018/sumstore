@@ -26,6 +26,9 @@
           <li class="nav-item" :class="{active:$route.path == '/user/cart'}">
             <router-link class="nav-link" :to="{ path: '/user/cart'}">Cart <span v-if="cart.length" class="badge badge-light">{{cart.length}}</span></router-link>
           </li>
+          <li v-if="user" class="nav-item" :class="{active:$route.path == '/user/preferences'}">
+            <router-link class="nav-link" :to="{ path: '/user/preferences'}">Settings</router-link>
+          </li>
           <li v-if="user && user.admin" class="nav-item" :class="{active:$route.path == '/admin'}">
               <router-link class="nav-link" :to="{ path: '/admin'}">Admin Home</router-link>
           </li>

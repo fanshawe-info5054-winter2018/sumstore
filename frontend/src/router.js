@@ -64,6 +64,14 @@ const router = new VueRouter({
             requiresAuth: true,
           }
         },
+        {
+            path: '/user/preferences',
+            component: require('./view/user/preferences.vue').default,
+            meta: {
+                title: 'User Preferences',
+                requiresAuth: true,
+            }
+        },
       ]
     },
     /******* Pages outside the main page *******/

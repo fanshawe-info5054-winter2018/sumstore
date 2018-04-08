@@ -27,6 +27,9 @@ module.exports = {
       });
     });
   },
+  update: function (user) {
+      return firebase.database().ref("users/"+user.uid).update(user);
+  },
   getUser: function (user) {
     return new Promise((resolve, reject) => {
       return firebase.database().ref("users").orderByChild('username').equalTo(user.username).once("value")

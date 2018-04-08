@@ -77,6 +77,17 @@ const actions = {
     });
   },
 
+  updatePreferences({ commit }, user) {
+      return new Promise(function (resolve, reject) {
+          user = JSON.stringify(user);
+          return axios.post('/api/user/update', {user}).then(response => {
+              resolve(response);
+          }).catch(err => {
+              reject(err);
+          });
+      });
+  },
+
   login({ commit }, creds) {
     return new Promise(function (success, error) {
       return axios.post('/api/auth/login', { token: btoa(JSON.stringify({ user: creds })) })

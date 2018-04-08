@@ -38,5 +38,17 @@ module.exports = () => {
       });
   });
 
+  router.post("/update", (request, response) => {
+      console.log(request.body);
+      let user = JSON.parse(request.body.user);
+      if(user.password){
+          user.password = Buffer.from(user.password).toString('base64');
+      }
+      return usermodel.update(user).then(()=>{
+          response.status(200).send();
+      },()=>{
+          response.status(500).send({reason:"error trying to update user"});
+      });
+  });
   return router;
 };
