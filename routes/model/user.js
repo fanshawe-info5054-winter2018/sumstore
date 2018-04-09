@@ -53,6 +53,21 @@ module.exports = {
         });
     });
   },
+  cancelOrder: function (order) {
+    return new Promise((resolve, reject) => {
+      let orderref = firebase.database().ref("orders/"+order.uid);
+      return orderref.once("value")
+        .then(snapshot => {
+          let order = snapshot.val();
+          order.status = "Cancelled";
+          orderref.update(order);
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
   getOrders: function (user) {
     return new Promise((resolve, reject) => {
       return firebase.database().ref("orders").orderByChild('user').once("value")
@@ -73,12 +88,12 @@ module.exports = {
       return likedgamesref.once("value")
         .then(snapshot => {
           let likedgames = snapshot.val();
-          for(let key in likedgames) {
-            if(likedgames[key] == game.uid) {
+          for (let key in likedgames) {
+            if (likedgames[key] == game.uid) {
               likedgamesref.child(key).remove();
             }
           }
-          if(like){
+          if (like) {
             likedgamesref.push().set(game.uid);
           }
           resolve();
@@ -90,9 +105,9 @@ module.exports = {
   },
   getLikedGames: function (user) {
     return new Promise((resolve, reject) => {
-      return firebase.database().ref("users/"+user.uid+"/likedgames").once("value")
+      return firebase.database().ref("users/" + user.uid + "/likedgames").once("value")
         .then(snapshot => {
-          let likedGames = snapshot.val()?Object.values(snapshot.val()):[];
+          let likedGames = snapshot.val() ? Object.values(snapshot.val()) : [];
           resolve(likedGames);
         })
         .catch((err) => {

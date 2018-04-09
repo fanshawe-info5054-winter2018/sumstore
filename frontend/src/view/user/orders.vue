@@ -26,7 +26,7 @@
     <thead class="thead-light">
     <tr><th>Order Number</th><th>Date</th><th>Status</th><th>Tracking Number</th><th>Order Total</th></tr>
     </thead>
-    <tr v-for="order in orders" @click="orderDetails(order)">
+    <tr v-for="(order,index) in orders" @click="orderDetails(index)">
       <td>{{order.uid}}</td>
       <td>{{order.date.getMonth()+1}}.{{order.date.getDate()}}.{{order.date.getFullYear()}}</td>
       <td>{{order.status}}</td>

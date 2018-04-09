@@ -171,6 +171,17 @@ const actions = {
     });
   },
 
+  cancelorder(context, order) {
+    return new Promise(function (success, error) {
+      return axios.post('/api/user/cancelorder', { order })
+        .then(response => {
+          success(response);
+        }).catch(err => {
+          error(err);
+        });
+    });
+  },
+
   selectOrder({ commit }, order) {
     return commit(SELECTEDORDER, order);
   },

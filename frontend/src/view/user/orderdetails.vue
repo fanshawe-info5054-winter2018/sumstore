@@ -16,17 +16,27 @@
       <span>Total: ${{order.price}}</span></br>
     </li>
   </ul>
+  <br/>
+  <button v-if="order.status == 'Placed'" class="btn btn-danger" @click="cancelOrder()">Cancel Order</button>
 </div>
 </template>
 <script>
 export default {
   computed: {
     order() {
-      return this.$store.getters["user/selectedOrder"];
+      return this.$store.getters["user/orders"][this.$store.getters["user/selectedOrder"]];
     }
   },
   created() {
     this.$store.dispatch("user/getorders");
+  },
+  methods:{
+    cancelOrder(){
+      this.$store.dispatch("user/cancelorder",this.order)
+      .then(()=>{
+        this.$store.dispatch("user/getorders");
+      });
+    }
   }
 };
 </script>

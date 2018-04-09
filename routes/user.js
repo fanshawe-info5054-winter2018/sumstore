@@ -5,7 +5,6 @@ const usermodel = require('./model/user');
 
 module.exports = () => {
   router.post("/getorders", (request, response) => {
-    console.log(request.body.token);
     return usermodel.decode(request.body.token)
       .then((user) => {
         return usermodel.getOrders(user.uid);
@@ -33,6 +32,15 @@ module.exports = () => {
           console.log(err);
           return usermodel.newOrder(order);
       })
+      .then(() => {
+        response.status(200).send();
+      });
+  });
+
+  router.post("/cancelorder", (request, response) => {
+    console.log(request.body.order);
+    let order = request.body.order;
+    return usermodel.cancelOrder(order)
       .then(() => {
         response.status(200).send();
       });
