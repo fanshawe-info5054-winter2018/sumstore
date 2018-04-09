@@ -24,8 +24,12 @@
         Out of Stock
       </span>
       <span class="rating">
-        <input type="image" value="like" class="btn" src="/images/thumbs-up.jpg"/>
-        <input type="image" value="dislike" class="btn" src="/images/thumbs-down.jpg"/>
+        <input v-if="!liked" type="image" value="like" class="btn" src="/images/thumbs-up.jpg" @click="like(true)"/>
+        <input v-else type="image" value="like" class="btn" src="/images/thumbs-up.jpg" disabled/>
+        
+        <input v-if="liked" type="image" value="dislike" class="btn" src="/images/thumbs-down.jpg" @click="like(false)"/>
+        <input v-else type="image" value="dislike" class="btn" src="/images/thumbs-down.jpg" disabled/>
+        {{Object.values(game.likes).length}} Users liked this game
       </span>
       <br/>
       <span class="price">
@@ -46,6 +50,7 @@ export default {
       platformuid: this.$route.query.platformuid,
       gameuid: this.$route.query.gameuid
     });
+    this.$store.dispatch("user/getlikedgames");
   },
   computed: {
     game() {
@@ -63,11 +68,28 @@ export default {
           return product.game.uid == this.game.uid;
         }
       ) > -1;
+    },
+    liked() {
+      return this.$store.getters["user/likedGames"].findIndex(
+        likedGame => {
+          return likedGame == this.game.uid;
+        }
+      ) > -1;
     }
   },
   methods:{
     addToCart(){
       this.$store.dispatch("user/addToCart",this.game);
+    },
+    like(likevalue){
+      this.$store.dispatch("user/likegame",{game:this.game,like:likevalue})
+      .then(()=>{
+        this.$store.dispatch("user/getlikedgames");
+        this.$store.dispatch("game/fetch", {
+          platformuid: this.$route.query.platformuid,
+          gameuid: this.$route.query.gameuid
+        });
+      });
     }
   }
 };

@@ -5,17 +5,20 @@ const REGISTRATION = "REGISTRATION";
 const LOGOUT = "LOGOUT";
 const USER = "USER";
 const CART = "CART";
+const LIKEDGAMES = "LIKEDGAMES";
 const ORDERS = "ORDERS";
 const SELECTEDORDER = "SELECTEDORDER";
 
 const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : "";
 const storedCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+const storedLikedGames = localStorage.getItem('likedGames') ? JSON.parse(localStorage.getItem('likedGames')) : [];
 const storedOrders = localStorage.getItem('orders') ? JSON.parse(localStorage.getItem('orders')) : [];
 const storedSelectedOrder = localStorage.getItem('selectedOrder') ? JSON.parse(localStorage.getItem('selectedOrder')) : { status: "", products: [] };
 
 const state = {
   user: storedUser,
   cart: storedCart,
+  likedGames:storedLikedGames,
   orders: storedOrders,
   selectedOrder: storedSelectedOrder,
   shipping: 5,
@@ -24,6 +27,7 @@ const state = {
 const getters = {
   user: state => state.user,
   cart: state => state.cart,
+  likedGames: state => state.likedGames,
   orders: state => state.orders,
   selectedOrder: state => state.selectedOrder,
   shipping: state => state.shipping,
@@ -44,6 +48,10 @@ const mutations = {
   [CART](state, cart) {
     state.cart = cart;
     localStorage.setItem('cart', JSON.stringify(cart));
+  },
+  [LIKEDGAMES](state, likedGames) {
+    state.likedGames = likedGames;
+    localStorage.setItem('likedGames', JSON.stringify(likedGames));
   },
   [ORDERS](state, orders) {
     state.orders = orders.map((order) => {
@@ -78,14 +86,14 @@ const actions = {
   },
 
   updatePreferences({ commit }, user) {
-      return new Promise(function (resolve, reject) {
-          user = JSON.stringify(user);
-          return axios.post('/api/user/update', {user}).then(response => {
-              resolve(response);
-          }).catch(err => {
-              reject(err);
-          });
+    return new Promise(function (resolve, reject) {
+      user = JSON.stringify(user);
+      return axios.post('/api/user/update', { user }).then(response => {
+        resolve(response);
+      }).catch(err => {
+        reject(err);
       });
+    });
   },
 
   login({ commit }, creds) {
@@ -125,8 +133,20 @@ const actions = {
     }
   },
 
-  clearCart({ commit}) {
+  clearCart({ commit }) {
     commit(CART, []);
+  },
+
+  getlikedgames(context) {
+    return new Promise(function (success, error) {
+      return axios.post('/api/user/getlikedgames', { token: context.state.user })
+        .then(response => {
+          context.commit(LIKEDGAMES, response.data);
+          success(response);
+        }).catch(err => {
+          error(err);
+        });
+    });
   },
 
   getorders(context) {
@@ -161,6 +181,16 @@ const actions = {
     });
     return new Promise(function (success, error) {
       return axios.post('/api/user/checkout', { token: context.state.user, address, payment, products, total })
+        .then(response => {
+          success(response);
+        }).catch(err => {
+          error(err);
+        });
+    });
+  },
+  likegame(context, { game, like }) {
+    return new Promise(function (success, error) {
+      return axios.post('/api/game/like', { token: context.state.user, game, like })
         .then(response => {
           success(response);
         }).catch(err => {

@@ -50,5 +50,16 @@ module.exports = () => {
           response.status(500).send({reason:"error trying to update user"});
       });
   });
+
+  router.post("/getlikedgames", (request, response) => {
+    return usermodel.decode(request.body.token)
+      .then((user) => {
+        return usermodel.getLikedGames(user);
+      })
+      .then((likedgames) => {
+        response.json(likedgames);
+      });
+  });
+
   return router;
 };

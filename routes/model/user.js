@@ -22,13 +22,13 @@ module.exports = {
       let newuser = firebase.database().ref("users").push();
       user.uid = newuser.key;
       return newuser.set(user)
-      .then(()=>{
-        resolve(user);
-      });
+        .then(() => {
+          resolve(user);
+        });
     });
   },
   update: function (user) {
-      return firebase.database().ref("users/"+user.uid).update(user);
+    return firebase.database().ref("users/" + user.uid).update(user);
   },
   getUser: function (user) {
     return new Promise((resolve, reject) => {
@@ -48,9 +48,9 @@ module.exports = {
       order.status = "Placed";
       order.date = new Date().toDateString();
       return neworder.set(order)
-      .then(()=>{
-        resolve(order);
-      });
+        .then(() => {
+          resolve(order);
+        });
     });
   },
   getOrders: function (user) {
@@ -58,9 +58,42 @@ module.exports = {
       return firebase.database().ref("orders").orderByChild('user').once("value")
         .then(snapshot => {
           let orders = Object.values(snapshot.val());
-          resolve(orders.filter((order)=>{
+          resolve(orders.filter((order) => {
             return order.user == user;
           }));
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  likeGame: function (user, game, like) {
+    return new Promise((resolve, reject) => {
+      let likedgamesref = firebase.database().ref("users/" + user.uid + "/likedgames");
+      return likedgamesref.once("value")
+        .then(snapshot => {
+          let likedgames = snapshot.val();
+          for(let key in likedgames) {
+            if(likedgames[key] == game.uid) {
+              likedgamesref.child(key).remove();
+            }
+          }
+          if(like){
+            likedgamesref.push().set(game.uid);
+          }
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  getLikedGames: function (user) {
+    return new Promise((resolve, reject) => {
+      return firebase.database().ref("users/"+user.uid+"/likedgames").once("value")
+        .then(snapshot => {
+          let likedGames = snapshot.val()?Object.values(snapshot.val()):[];
+          resolve(likedGames);
         })
         .catch((err) => {
           reject(err);
