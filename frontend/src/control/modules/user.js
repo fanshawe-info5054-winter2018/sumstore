@@ -13,7 +13,7 @@ const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getIte
 const storedCart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 const storedLikedGames = localStorage.getItem('likedGames') ? JSON.parse(localStorage.getItem('likedGames')) : [];
 const storedOrders = localStorage.getItem('orders') ? JSON.parse(localStorage.getItem('orders')) : [];
-const storedSelectedOrder = localStorage.getItem('selectedOrder') ? JSON.parse(localStorage.getItem('selectedOrder')) : { status: "", products: [] };
+const storedSelectedOrder = localStorage.getItem('selectedOrder') ? JSON.parse(localStorage.getItem('selectedOrder')) : -1;
 
 const state = {
   user: storedUser,

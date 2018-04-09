@@ -3,7 +3,7 @@
   <br>
   <h2>Order Details</h2>
   <br>
-  <h3>Order Number: {{order.number}}</h3>
+  <h3>Order Number: {{order.uid}}</h3>
   <h4>Status: <span class="badge badge-info">{{order.status}}</span></h4>
   <div class="clearfix">
     <h4 class="float-left">Tracking #: {{order.tracking}}</h4>
@@ -13,18 +13,20 @@
     <li class="list-group-item" v-for="product in order.products">
       <span>Game Title: {{product.game.name}}</span></br>
       <span>Subtotal: ${{product.game.price}}</span></br>
-      <span>Total: ${{order.price}}</span></br>
     </li>
   </ul>
+      <span>Total: ${{order.total.toFixed(2)}}</span></br>
   <br/>
   <button v-if="order.status == 'Placed'" class="btn btn-danger" @click="cancelOrder()">Cancel Order</button>
+  <button v-if="order.status != 'Cancelled'" class="btn btn-success" @click="buyAgain()">Get it Again</button>
 </div>
 </template>
 <script>
 export default {
   computed: {
     order() {
-      return this.$store.getters["user/orders"][this.$store.getters["user/selectedOrder"]];
+      let order = this.$store.getters["user/orders"][this.$store.getters["user/selectedOrder"]];
+      return order?order:{total:0};
     }
   },
   created() {
@@ -36,6 +38,12 @@ export default {
       .then(()=>{
         this.$store.dispatch("user/getorders");
       });
+    },
+    buyAgain(){
+      this.order.products.forEach(product => {
+        this.$store.dispatch("user/addToCart",product.game);
+      });
+      this.$router.push({ path: '/user/cart'});
     }
   }
 };

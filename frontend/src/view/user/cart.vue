@@ -38,7 +38,6 @@ export default {
         return parseFloat(a.game.price) + parseFloat(b.game.price);
       }):0;
       subtotal = subtotal.game?parseFloat(subtotal.game.price):subtotal;
-      console.log(subtotal);
       return subtotal;
     }
   },
