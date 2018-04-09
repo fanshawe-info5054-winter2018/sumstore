@@ -2,7 +2,7 @@
   <form @submit.prevent="submit" class="container">
     <h2>Update Preferences</h2><br/>
     <h3>Change E-mail</h3>
-    <div v-if="errors.length">
+    <div v-if="errors.length" class="alert alert-warning" role="alert">
       <strong>Please correct the following error(s):</strong>
       <ul>
         <li v-for="error in errors">{{ error }}</li>
