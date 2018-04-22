@@ -57,10 +57,12 @@ export default {
       return this.$store.getters["user/cart"];
     },
     subtotal(){
-      let subtotal = this.cart.length?this.cart.reduce((a, b)=>{
-        return parseFloat(a.game.price) + parseFloat(b.game.price);
-      }):0;
-      subtotal = subtotal.game?parseFloat(subtotal.game.price):subtotal;
+      let subtotal = 0;
+      this.cart.forEach(product => {
+        if(product.game){
+          subtotal += parseFloat(product.game.price);
+        }
+      });
       return subtotal;
     },
     similar(){

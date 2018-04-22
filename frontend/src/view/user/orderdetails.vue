@@ -19,31 +19,36 @@
   <br/>
   <button v-if="order.status == 'Placed'" class="btn btn-danger" @click="cancelOrder()">Cancel Order</button>
   <button v-if="order.status != 'Cancelled'" class="btn btn-success" @click="buyAgain()">Get it Again</button>
+  <button v-if="order.status == 'Delivered'" class="btn btn-secondary" @click="returnItems()">Return an item</button>
 </div>
 </template>
 <script>
 export default {
   computed: {
     order() {
-      let order = this.$store.getters["user/orders"][this.$store.getters["user/selectedOrder"]];
-      return order?order:{total:0};
+      let order = this.$store.getters["user/orders"][
+        this.$store.getters["user/selectedOrder"]
+      ];
+      return order ? order : { total: 0 };
     }
   },
   created() {
     this.$store.dispatch("user/getorders");
   },
-  methods:{
-    cancelOrder(){
-      this.$store.dispatch("user/cancelorder",this.order)
-      .then(()=>{
+  methods: {
+    cancelOrder() {
+      this.$store.dispatch("user/cancelorder", this.order).then(() => {
         this.$store.dispatch("user/getorders");
       });
     },
-    buyAgain(){
+    buyAgain() {
       this.order.products.forEach(product => {
-        this.$store.dispatch("user/addToCart",product.game);
+        this.$store.dispatch("user/addToCart", product.game);
       });
-      this.$router.push({ path: '/user/cart'});
+      this.$router.push({ path: "/user/cart" });
+    },
+    returnItems() {
+      this.$router.push({ path: "/user/returnitems" });
     }
   }
 };

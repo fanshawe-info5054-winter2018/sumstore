@@ -65,6 +65,14 @@ const router = new VueRouter({
           }
         },
         {
+          path: '/user/returnitems',
+          component: require('./view/user/returnitems.vue').default,
+          meta: {
+            title: 'Return an Item',
+            requiresAuth: true,
+          }
+        },
+        {
             path: '/user/preferences',
             component: require('./view/user/preferences.vue').default,
             meta: {

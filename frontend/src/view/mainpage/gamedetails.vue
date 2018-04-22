@@ -12,7 +12,7 @@
     <iframe class="embed-responsive-item" :src="game.trailer.replace('watch?v=', 'embed/')" frameborder="0" allowfullscreen></iframe>
   </div>
   <br/>
-  <div>
+  <div class="clearfix">
     <div class="float-left">
       <span class="badge badge-success" v-if="game.qty>=10">
         In Stock
@@ -41,20 +41,16 @@
     </div>
   </div>
   <br />
-  <div v-if="similar.length" style="clear:both" class="float-left">
+  <div v-if="similar.length" class="float-left">
     <br>
     <h3>Similar games you may like..</h3>
     <br>
     <ul class="list-group" v-once>
-      <li class="list-group-item" v-for="similargame in similar">
-        <router-link :to="{ path: '/gamedetails', query: { gameuid: similargame.uid, platformuid: similargame.platform.uid }}" >
-          <div>
-            <h3 onclick="location.reload()">
-              {{similargame.name}}
-            </h3>
-            platform: {{similargame.platform.name}}
-          </div>
-        </router-link>
+      <li class="list-group-item btn" v-for="similargame in similar" @click="gotoGame(similargame)">
+        <h3>
+          {{similargame.name}}
+        </h3>
+        platform: {{similargame.platform.name}}
       </li>
     </ul>
   </div>
@@ -63,11 +59,7 @@
 <script>
 export default {
   created() {
-    this.$store.dispatch("game/fetch", {
-      platformuid: this.$route.query.platformuid,
-      gameuid: this.$route.query.gameuid
-    });
-    this.$store.dispatch("user/getlikedgames");
+    this.getData();
   },
   computed: {
     game() {
@@ -77,24 +69,24 @@ export default {
           return platform.uid == game.platform;
         }
       );
-      game.likes = game.likes?game.likes:{};
+      game.likes = game.likes ? game.likes : {};
       return game;
     },
     isInCart() {
-      return this.$store.getters["user/cart"].findIndex(
-        product => {
+      return (
+        this.$store.getters["user/cart"].findIndex(product => {
           return product.game.uid == this.game.uid;
-        }
-      ) > -1;
+        }) > -1
+      );
     },
     liked() {
-      return this.$store.getters["user/likedGames"].findIndex(
-        likedGame => {
+      return (
+        this.$store.getters["user/likedGames"].findIndex(likedGame => {
           return likedGame == this.game.uid;
-        }
-      ) > -1;
+        }) > -1
+      );
     },
-    similar(){
+    similar() {
       // Get the game from detail
       let self = this;
       let game = this.game;
@@ -103,21 +95,34 @@ export default {
       gamesList = self.$store.getters["game/similarGames"];
 
       return gamesList;
-    },
+    }
   },
-  methods:{
-    addToCart(){
-      this.$store.dispatch("user/addToCart",this.game);
+  methods: {
+    addToCart() {
+      this.$store.dispatch("user/addToCart", this.game);
     },
-    like(likevalue){
-      this.$store.dispatch("user/likegame",{game:this.game,like:likevalue})
-      .then(()=>{
-        this.$store.dispatch("user/getlikedgames");
-        this.$store.dispatch("game/fetch", {
-          platformuid: this.$route.query.platformuid,
-          gameuid: this.$route.query.gameuid
+    like(likevalue) {
+      this.$store
+        .dispatch("user/likegame", { game: this.game, like: likevalue })
+        .then(() => {
+          this.$store.dispatch("user/getlikedgames");
+          this.$store.dispatch("game/fetch", {
+            platformuid: this.$route.query.platformuid,
+            gameuid: this.$route.query.gameuid
+          });
         });
+    },
+    gotoGame(similargame) {
+      this.$route.query.platformuid = similargame.platform.uid;
+      this.$route.query.gameuid = similargame.uid;
+      this.getData();
+    },
+    getData() {
+      this.$store.dispatch("game/fetch", {
+        platformuid: this.$route.query.platformuid,
+        gameuid: this.$route.query.gameuid
       });
+      this.$store.dispatch("user/getlikedgames");
     }
   }
 };
