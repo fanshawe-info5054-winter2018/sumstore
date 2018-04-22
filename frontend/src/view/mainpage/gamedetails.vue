@@ -60,6 +60,7 @@ export default {
           return platform.uid == game.platform;
         }
       );
+      game.likes = game.likes?game.likes:{};
       return game;
     },
     isInCart() {
