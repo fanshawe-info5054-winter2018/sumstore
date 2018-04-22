@@ -40,7 +40,24 @@
       <button class="btn btn-primary" :disabled="isInCart" @click="addToCart()">Add to Cart</button>
     </div>
   </div>
-
+  <br />
+  <div v-if="similar.length" style="clear:both" class="float-left">
+    <br>
+    <h3>Similar games you may like..</h3>
+    <br>
+    <ul class="list-group" v-once>
+      <li class="list-group-item" v-for="similargame in similar">
+        <router-link :to="{ path: '/gamedetails', query: { gameuid: similargame.uid, platformuid: similargame.platform.uid }}" >
+          <div>
+            <h3 onclick="location.reload()">
+              {{similargame.name}}
+            </h3>
+            platform: {{similargame.platform.name}}
+          </div>
+        </router-link>
+      </li>
+    </ul>
+  </div>
 </div>
 </template>
 <script>
@@ -76,7 +93,17 @@ export default {
           return likedGame == this.game.uid;
         }
       ) > -1;
-    }
+    },
+    similar(){
+      // Get the game from detail
+      let self = this;
+      let game = this.game;
+      let gamesList = [];
+      self.$store.dispatch("game/similargames", game);
+      gamesList = self.$store.getters["game/similarGames"];
+
+      return gamesList;
+    },
   },
   methods:{
     addToCart(){

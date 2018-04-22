@@ -30,6 +30,26 @@ module.exports = () => {
     });
   });
 
+  router.post("/similar", (request, response) => {
+    gamemodel.similar(request.body.gamelist).then(games => {
+      // Initialize return array.
+      let similargames = [];
+
+      // Randomize and pick 3 games.
+      if (games.length > 3) {
+        do {
+          similargames[similargames.length] = games.splice(
+            Math.floor(Math.random() * games.length)
+            , 1)[0];
+        } while (similargames.length < 3);
+      }
+      else {
+        similargames = games;
+      }
+      response.json(similargames);
+    });
+  });
+
   router.post("/fetch", (request, response) => {
     console.log("fetching", request.body);
     let gameuid = request.body.gameuid;

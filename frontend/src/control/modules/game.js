@@ -2,18 +2,22 @@ import axios from 'axios';
 
 const GAMES = "GAMES";
 const SELECTEDGAME = "SELECTEDGAME";
+const SIMILARGAMES = "SIMILARGAMES";
 
 const storedGames = localStorage.getItem('games') ? JSON.parse(localStorage.getItem('games')) : [];
 const storedSelectedGame = localStorage.getItem('selectedGame') ? JSON.parse(localStorage.getItem('selectedGame')) : {};
+const storedSimilarGames = localStorage.getItem('similarGames') ? JSON.parse(localStorage.getItem('similarGames')) : {};
 
 const state = {
   games: storedGames,
-  selectedGame: storedSelectedGame
+  selectedGame: storedSelectedGame,
+  similarGames: storedSimilarGames
 };
 
 const getters = {
   games: state => state.games,
-  selectedGame: state => state.selectedGame
+  selectedGame: state => state.selectedGame,
+  similarGames: state => state.similarGames
 };
 
 const mutations = {
@@ -24,6 +28,10 @@ const mutations = {
   [SELECTEDGAME](state, game) {
     state.selectedGame = game;
     localStorage.setItem('selectedGame', JSON.stringify(game));
+  },
+  [SIMILARGAMES](state, similargames) {
+    state.similarGames = similargames;
+    localStorage.setItem('similarGames', JSON.stringify(similargames));
   },
 };
 
@@ -42,6 +50,16 @@ const actions = {
     return new Promise(function (resolve, reject) {
       return axios.post('/api/game/listall').then(response => {
         commit(GAMES, response.data);
+        resolve(response);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  },
+  similargames({commit},gamelist) {
+    return new Promise(function (resolve, reject) {
+      return axios.post('/api/game/similar', {gamelist}).then(response => {
+        commit(SIMILARGAMES, response.data);
         resolve(response);
       }).catch(err => {
         reject(err);

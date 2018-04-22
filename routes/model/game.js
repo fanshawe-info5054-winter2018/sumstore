@@ -29,6 +29,50 @@ module.exports = {
       });
     });
   },
+  similar: function (relatedgame) {
+    //gets all the games related to 'related game'
+    let excludeGame = [];
+    let includePlatform = [];
+    if (!Array.isArray(relatedgame)) {
+      excludeGame.push(relatedgame.uid);
+      includePlatform.push(relatedgame.platform.uid);
+    } else {
+      relatedgame.forEach(function (product) {
+        excludeGame.push(product.uid);
+        includePlatform.push(product.platform.uid);
+      });
+    }
+
+    return new Promise((resolve, reject) => {
+      return platformmodel.list().then(platforms => {
+        let games = [];
+        for (let i = 0; i < platforms.length; i++) {
+          let platformname = platforms[i].name;
+          if (platforms[i].games && includePlatform.indexOf(platforms[i].uid) >= 0) {
+            games = games.concat(Object.values(platforms[i].games).map(function (game) {
+              game.platform = {
+                uid: game.platform,
+                name: this
+              };
+              return game;
+            }, platformname));
+          }
+        }
+        games.sort((a, b) => {
+          if (a.name > b.name) {
+            return 1;
+          }
+          else if (a.name < b.name) {
+            return -1;
+          }
+          return 0;
+        });
+        // Remove the titles we are basing these results on.
+        games = games.filter(game => excludeGame.indexOf(game.uid) == -1);
+        resolve(games);
+      });
+    });
+  },
   fetch: function ({ platformuid, gameuid }) {
     //lists all games from a platform, returns a promise with an array when resolved
     return new Promise((resolve, reject) => {
