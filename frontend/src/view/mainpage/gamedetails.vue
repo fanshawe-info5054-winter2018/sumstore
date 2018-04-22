@@ -113,8 +113,13 @@ export default {
         });
     },
     gotoGame(similargame) {
-      this.$route.query.platformuid = similargame.platform.uid;
-      this.$route.query.gameuid = similargame.uid;
+      this.$router.replace({
+        path: "/gamedetails",
+        query: {
+          platformuid: similargame.platform.uid,
+          gameuid: similargame.uid
+        }
+      });
       this.getData();
     },
     getData() {
