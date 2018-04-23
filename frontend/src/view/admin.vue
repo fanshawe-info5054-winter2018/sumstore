@@ -13,6 +13,9 @@
           <li class="nav-item active">
               <router-link class="nav-link" :to="{ path: '/admin'}">Admin Home</router-link>
           </li>
+          <li class="nav-item active">
+              <router-link class="nav-link" :to="{ path: '/admin/trackorders'}">Track Orers</router-link>
+          </li>
         </ul>
       </div>
     </div>

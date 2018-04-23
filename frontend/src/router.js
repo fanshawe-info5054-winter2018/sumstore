@@ -106,6 +106,13 @@ const router = new VueRouter({
             title: 'SumStore: Admin',
           }
         },
+        {
+          path: 'trackorders',
+          component: require('./view/admin/trackorders.vue').default,
+          meta: {
+            title: 'SumStore: Admin',
+          }
+        },
       ]
     }
   ]
