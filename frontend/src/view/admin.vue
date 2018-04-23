@@ -13,6 +13,12 @@
           <li class="nav-item active">
               <router-link class="nav-link" :to="{ path: '/admin'}">Admin Home</router-link>
           </li>
+          <li class="nav-item active">
+              <router-link class="nav-link" :to="{ path: '/admin/trackorders'}">Track Orders</router-link>
+          </li>
+          <li class="nav-item" :class="{active:$route.path == '/'}">
+            <router-link class="nav-link" :to="{ path: '/'}">Back</router-link>
+          </li>
         </ul>
       </div>
     </div>
