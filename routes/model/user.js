@@ -55,7 +55,7 @@ module.exports = {
   },
   cancelOrder: function (order) {
     return new Promise((resolve, reject) => {
-      let orderref = firebase.database().ref("orders/"+order.uid);
+      let orderref = firebase.database().ref("orders/" + order.uid);
       return orderref.once("value")
         .then(snapshot => {
           let order = snapshot.val();
@@ -109,6 +109,29 @@ module.exports = {
         .then(snapshot => {
           let likedGames = snapshot.val() ? Object.values(snapshot.val()) : [];
           resolve(likedGames);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  requestReturn: function (ordernumber, games) {
+    return new Promise((resolve, reject) => {
+      let orderref = firebase.database().ref("orders/" + ordernumber);
+      let newreturn = firebase.database().ref("returns").push();
+      let itemreturn = { games, ordernumber };
+      itemreturn.uid = newreturn.key;
+      itemreturn.date = new Date().toDateString();
+      return Promise.all([
+        orderref.once("value"),
+        newreturn.set(itemreturn)
+      ])
+        .then(values => {
+          let snapshot = values[0];
+          let order = snapshot.val();
+          order.status = "Return in progress";
+          orderref.update(order);
+          resolve(itemreturn.uid);
         })
         .catch((err) => {
           reject(err);

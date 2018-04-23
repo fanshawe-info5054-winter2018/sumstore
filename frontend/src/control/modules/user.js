@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qrcode from 'qrcode-generator';
 
 const LOGIN = "LOGIN";
 const REGISTRATION = "REGISTRATION";
@@ -18,7 +19,7 @@ const storedSelectedOrder = localStorage.getItem('selectedOrder') ? JSON.parse(l
 const state = {
   user: storedUser,
   cart: storedCart,
-  likedGames:storedLikedGames,
+  likedGames: storedLikedGames,
   orders: storedOrders,
   selectedOrder: storedSelectedOrder,
   shipping: 5,
@@ -206,6 +207,24 @@ const actions = {
           success(response);
         }).catch(err => {
           error(err);
+        });
+    });
+  },
+  requestreturn(context, { ordernumber, games }) {
+    let typeNumber = 0;
+    let errorCorrectionLevel = 'M';
+    let qr = qrcode(typeNumber, errorCorrectionLevel);
+    return new Promise((resolve, reject) => {
+      return axios.post('/api/user/requestreturn', { token: context.state.user, ordernumber, games })
+        .then(response => {
+          let returnuid = response.data.returnuid;
+          console.log(returnuid);
+          qr.addData(returnuid);
+          qr.make();
+          resolve(qr.createImgTag(10));
+        })
+        .catch(err => {
+          reject(err);
         });
     });
   },

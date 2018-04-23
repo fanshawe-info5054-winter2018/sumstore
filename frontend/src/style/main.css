@@ -37,6 +37,14 @@ body {
     overflow-y: auto;
 }
 
+.printcontainer{
+    visibility: hidden;
+}
+.printelement{
+    visibility: visible;
+    display: block !important;
+}
+
 @media (min-width: 992px) {
     body {
         padding-top: 3.5em;

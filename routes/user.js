@@ -69,5 +69,16 @@ module.exports = () => {
       });
   });
 
+  router.post("/requestreturn", (request, response) => {
+    console.log(request.body.ordernumber);
+    let ordernumber = request.body.ordernumber;
+    let games = request.body.games;
+    return usermodel.requestReturn(ordernumber,games)
+      .then(returnuid => {
+        console.log(returnuid);
+        response.json({returnuid});
+      });
+  });
+
   return router;
 };
