@@ -82,6 +82,18 @@ module.exports = {
         });
     });
   },
+  getAllOrders: function () {
+    return new Promise((resolve, reject) => {
+      return firebase.database().ref("orders").once("value")
+        .then(snapshot => {
+          let orders = Object.values(snapshot.val());
+          resolve(orders);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
   likeGame: function (user, game, like) {
     return new Promise((resolve, reject) => {
       let likedgamesref = firebase.database().ref("users/" + user.uid + "/likedgames");

@@ -172,6 +172,28 @@ const actions = {
     });
   },
 
+  getallorders(context) {
+    return new Promise(function (success, error) {
+      return axios.post('/api/user/getallorders', { token: context.state.user })
+        .then(response => {
+          let games = context.rootState.game.games;
+          response.data.forEach(order => {
+            order.products = order.products.map((product) => {
+              return {
+                game: games.find(game => {
+                  return game.uid == product.game;
+                })
+              };
+            });
+          });
+          context.commit(ORDERS, response.data);
+          success(response);
+        }).catch(err => {
+          error(err);
+        });
+    });
+  },
+
   cancelorder(context, order) {
     return new Promise(function (success, error) {
       return axios.post('/api/user/cancelorder', { order })

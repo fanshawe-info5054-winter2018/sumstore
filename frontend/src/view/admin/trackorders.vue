@@ -29,7 +29,7 @@ export default {
     },
   },
   created(){
-    this.$store.dispatch("user/getorders");
+    this.$store.dispatch("user/getallorders");
   },
   methods:{
     orderDetails(order){

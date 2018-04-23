@@ -14,6 +14,21 @@ module.exports = () => {
       });
   });
 
+  router.post("/getallorders", (request, response) => {
+    return usermodel.decode(request.body.token)
+      .then((user) => {
+        if(user.admin){
+          return usermodel.getAllOrders();
+        }
+        else{
+          return new Promise();
+        }
+      })
+      .then((orders) => {
+        response.json(orders);
+      });
+  });
+
   router.post("/checkout", (request, response) => {
     console.log(request.body.token);
     let order = {
